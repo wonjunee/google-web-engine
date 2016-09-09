@@ -4,9 +4,18 @@ form = """
 <form method="post">
 	What is your birthday?
 	<br>
-	<input type="text" name="month">
-	<input type="text" name="day">
-	<input type="text" name="year">
+
+	<label> Month
+		<input type="text" name="month">
+	</label>
+
+	<label> Day
+		<input type="text" name="day">
+	</label>
+
+	<label>
+		<input type="text" name="year">
+	</label>
 	<br>
 	<br>
 	<input type="submit">
@@ -20,5 +29,5 @@ class MainPage(webapp2.RequestHandler):
 app = webapp2.WSGIApplication([
 
     ('/', MainPage)
-    
+
 ], debug=True)
