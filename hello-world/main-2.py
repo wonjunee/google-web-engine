@@ -27,7 +27,7 @@ class MainPage(webapp2.RequestHandler):
         self.response.write(form)
 
 class TestHandler(webapp2.RequestHandler):
-	def get(self):
+	def post(self):
 		q = self.request.get("q")
 		self.response.out.write(q)
 
