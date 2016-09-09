@@ -16,7 +16,7 @@ import webapp2
 
 form = """
 <form>
-	<input type="password" name="q">
+	<input type="checkbox" name="q">
 	<input type="submit">
 </form>
 """
