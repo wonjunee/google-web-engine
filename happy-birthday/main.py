@@ -18,6 +18,8 @@ form = """
 	<label> Year
 		<input type="text" name="year">
 	</label>
+
+	<div style="color: red">%(error)s</div>
 	<br>
 	<br>
 	<input type="submit">
@@ -25,21 +27,24 @@ form = """
 """
 
 class MainPage(webapp2.RequestHandler):
-    def get(self):
-        self.response.write(form)
+	def write_form(self, error=""):
+		self.response.out.write(form % {"error": error})
 
-    def post(self):
-    	user_month = valid_month(self.request.get('month'))
-    	user_day = valid_day(self.request.get('day'))
-    	user_year = valid_year(self.request.get('year'))
+	def get(self):
+	    self.write_form()
 
-    	if not (user_month and user_day and user_year):
-    		self.response.out.write(form)
-    	else:
-    		self.response.out.write("Thanks!")
+	def post(self):
+		user_month = valid_month(self.request.get('month'))
+		user_day = valid_day(self.request.get('day'))
+		user_year = valid_year(self.request.get('year'))
+
+		if not (user_month and user_day and user_year):
+			self.write_form("That doesn't look valid to me, mate.")
+		else:
+			self.response.out.write("Thanks!")
 
 app = webapp2.WSGIApplication([
 
-    ('/', MainPage)
+	('/', MainPage)
 
 ], debug=True)
