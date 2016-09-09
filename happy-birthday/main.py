@@ -13,7 +13,7 @@ form = """
 		<input type="text" name="day">
 	</label>
 
-	<label>
+	<label> Year
 		<input type="text" name="year">
 	</label>
 	<br>
