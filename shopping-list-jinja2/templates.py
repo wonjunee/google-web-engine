@@ -8,20 +8,6 @@ template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 # jinja will look for templates in the specified path
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
 
-hidden_html = """
-<input type="hidden" name="food" value="%s">
-"""
-item_html = "<li>%s</li>"
-
-shopping_list_html = """
-<br>
-<br>
-<h2>Shopping List</h2>
-<ul>
-%s
-</ul>
-"""
-
 class Handler(webapp2.RequestHandler):
 	def write(self, *a, **kw):
 		self.response.out.write(*a, **kw)
@@ -42,8 +28,6 @@ class MainPage(Handler):
 		# render the empty form.
 		self.render("shopping_list.html", items = items)
 
-		
-
 class FizzBuzzHandler(Handler):
 	def get(self):
 		n = self.request.get('n', 0)
@@ -52,7 +36,6 @@ class FizzBuzzHandler(Handler):
 
 app = webapp2.WSGIApplication([
 
-	# ('/', MainPage)
-	('/', FizzBuzzHandler)
+	('/', MainPage)
 
 ], debug=True)
