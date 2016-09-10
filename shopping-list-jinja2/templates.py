@@ -40,7 +40,7 @@ class MainPage(Handler):
 		items = self.request.get_all("food")
 
 		# render the empty form.
-		self.render("shopping_list.html")
+		self.render("shopping_list.html", items = items)
 
 		
 
