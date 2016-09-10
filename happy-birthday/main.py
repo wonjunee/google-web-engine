@@ -48,7 +48,11 @@ class MainPage(webapp2.RequestHandler):
 		if not (month and day and year):
 			self.write_form("That doesn't look valid to me, mate.", user_month, user_day, user_year)
 		else:
-			self.response.out.write("Thanks!")
+			self.redirect("/thanks")
+
+# Implementing redirection
+class ThanksHandler(webapp2.RequestHandler):
+	def get(self):
 
 app = webapp2.WSGIApplication([
 
