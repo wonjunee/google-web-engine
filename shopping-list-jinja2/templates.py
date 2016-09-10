@@ -4,6 +4,8 @@ import jinja2
 import webapp2
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
+
+# jinja will look for templates in the specified path
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
 
 hidden_html = """
@@ -25,6 +27,7 @@ class Handler(webapp2.RequestHandler):
 		self.response.out.write(*a, **kw)
 
 	def render_str(self, template, **params):
+		# jinja will load the file from the templates path
 		t = jinja_env.get_template(template)
 		return t.render(params)
 
@@ -33,8 +36,9 @@ class Handler(webapp2.RequestHandler):
 
 class MainPage(Handler):
 	def get(self):
-		self.render("shopping_list.html")
-		
+		# render the empty form.
+		self.render("shopping_list.html", name="steve")
+
 		# output = form_html
 		# output_hidden = ""
 
