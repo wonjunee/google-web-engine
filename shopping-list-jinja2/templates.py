@@ -6,7 +6,11 @@ import webapp2
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 
 # jinja will look for templates in the specified path
-jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir))
+# There are two ways of escaping html syntax
+# You can use 'autoescape' in jinja2.Environment or
+# you can use {{ name | escape}} in html
+jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
+										autoescape = True)
 
 class Handler(webapp2.RequestHandler):
 	def write(self, *a, **kw):
