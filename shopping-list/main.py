@@ -32,7 +32,7 @@ class Handler(webapp2.RequestHandler):
 class MainPage(Handler):
 	def get(self):
 		output = form_html
-		hidden_html = ""
+		output_hidden = ""
 
 		# get_all: get all of food parameters and get them in the list
 		items = self.request.get_all("food")
@@ -46,7 +46,7 @@ class MainPage(Handler):
 			output += output_shopping
 
 		output = output % output_hidden
-		
+
 		self.write(output)
 
 app = webapp2.WSGIApplication([
