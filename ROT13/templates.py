@@ -30,14 +30,15 @@ class Handler(webapp2.RequestHandler):
 
 class MainPage(Handler):
 	def get(self):
-		# get_all: get all of food parameters and get them in the list
-		pre_content = self.request.get("content")
-
-		content = string.translate(pre_content.decode("ascii","ignore"), rot13)
-
 		# render the empty form.
-		self.render("ROT13.html", content = content)
+		self.render("ROT13.html")
 
+	def post(self):
+		pre_content = self.request.get("content")
+		content = pre_content + " GREAT!"
+
+		# render with content.
+		self.render("ROT13.html", content = content)
 
 app = webapp2.WSGIApplication([
 
