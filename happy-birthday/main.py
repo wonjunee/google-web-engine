@@ -1,5 +1,5 @@
 from validation import *
-from escape_html.py import *
+from escape_html import *
 import webapp2
 
 form = """
@@ -31,7 +31,7 @@ class MainPage(webapp2.RequestHandler):
 		self.response.out.write(form % {"error": error,
 										"month": escape_html(month),
 										"day": escape_html(day),
-										"year": escpae_html(year)})
+										"year": escape_html(year)})
 
 	def get(self):
 	    self.write_form()

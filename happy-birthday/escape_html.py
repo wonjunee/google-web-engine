@@ -10,7 +10,7 @@ def escape_html(s):
 
 s = "<b>html</b>&lt;"
 
-print escape_html(s)
+# print escape_html(s)
 
 from HTMLParser import HTMLParser
 print HTMLParser.unescape.__func__(HTMLParser,s)
