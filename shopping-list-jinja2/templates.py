@@ -37,6 +37,8 @@ class Handler(webapp2.RequestHandler):
 class MainPage(Handler):
 	def get(self):
 		n = self.request.get("n")
+		if n:
+			n = int(n)
 		# render the empty form.
 		self.render("shopping_list.html", n=n)
 
