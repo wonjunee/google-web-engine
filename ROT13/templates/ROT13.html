@@ -2,15 +2,11 @@
 
 {% block content %}
 
-<form>
+<form method="post">
 	<h2>Enter some text to ROT13:</h2>
-	{% if content %}
-		<input type="text" name="content" value="{{content}}">
-	{% else %}
-		<input type="text" name="content">
-	{% endif %}
-	<button>Submit</button>
-
+		<textarea name="text" style="height: 100px; width: 400px;">{{text}}</textarea>
+	<br>
+	<input type="submit">
 </form>
 
 {% endblock %}

@@ -2,10 +2,6 @@ import os
 
 import jinja2
 import webapp2
-import string #fixed typo was using
-rot13 = string.maketrans( 
-    "ABCDEFGHIJKLMabcdefghijklmNOPQRSTUVWXYZnopqrstuvwxyz", 
-    "NOPQRSTUVWXYZnopqrstuvwxyzABCDEFGHIJKLMabcdefghijklm")
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 
@@ -16,17 +12,18 @@ template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
 										autoescape = True)
 
+def render_str(template, **params):
+	# jinja will load the file from the templates path
+	t = jinja_env.get_template(template)
+	return t.render(params)
+
+
 class Handler(webapp2.RequestHandler):
 	def write(self, *a, **kw):
 		self.response.out.write(*a, **kw)
 
-	def render_str(self, template, **params):
-		# jinja will load the file from the templates path
-		t = jinja_env.get_template(template)
-		return t.render(params)
-
 	def render(self, template, **kw):
-		self.write(self.render_str(template, **kw))
+		self.write(render_str(template, **kw))
 
 class MainPage(Handler):
 	def get(self):
@@ -34,11 +31,13 @@ class MainPage(Handler):
 		self.render("ROT13.html")
 
 	def post(self):
-		pre_content = self.request.get("content")
-		content = pre_content + " GREAT!"
+		content = ""
+		pre_content = self.request.get("text")
+		if pre_content:
+			content = pre_content.encode('rot13')
 
 		# render with content.
-		self.render("ROT13.html", content = content)
+		self.render("ROT13.html", text = content)
 
 app = webapp2.WSGIApplication([
 
