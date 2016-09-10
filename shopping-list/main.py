@@ -11,6 +11,19 @@ form_html = """
 </form>
 """
 
+hidden_html = """
+<input type="hidden" name="food" value="%s">
+"""
+
+shopping_list_html = """
+<br>
+<br>
+<h2>Shopping List</h2>
+<ul>
+%s
+</ul>
+"""
+
 class Handler(webapp2.RequestHandler):
 	def write(self, *a, **kw):
 		self.response.out.write(*a, **kw)
