@@ -14,6 +14,7 @@ form_html = """
 hidden_html = """
 <input type="hidden" name="food" value="%s">
 """
+item_html = "<li>%s</li>"
 
 shopping_list_html = """
 <br>
@@ -30,7 +31,23 @@ class Handler(webapp2.RequestHandler):
 
 class MainPage(Handler):
 	def get(self):
-		self.write(form_html)
+		output = form_html
+		hidden_html = ""
+
+		# get_all: get all of food parameters and get them in the list
+		items = self.request.get_all("food")
+		if items:
+			output_items = ""
+			for item in items:
+				output_hidden += hidden_html % item
+				output_items += item_html % item
+
+			output_shopping = shopping_list_html % output_items
+			output += output_shopping
+
+		output = output % output_hidden
+		
+		self.write(output)
 
 app = webapp2.WSGIApplication([
 
