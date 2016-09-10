@@ -1,0 +1,30 @@
+<form>
+	<h2>Add a Food</h2>
+	<input type="text" name="food">
+	<button>Add</button>
+
+	{% if n == 1 %}
+		n equals 1
+	{% else %}
+		n does not equal 1
+	{% endif %}
+
+	<ul>
+		{% for x in range(1,n+1) %}
+			{% if n % 3 == 0 %}
+				<li>Fizz</li>
+			{% elseif n % 5 == 0 %}
+				<li>Buzz</li>
+			{% elseif n % 3 ==0 and n % 5 == 0 %}
+				<li>FizzBuzz</li>
+			{% else %}
+				<li>{{n}}</li>
+			{% endif %}
+		{% endfor %}
+	</ul>
+
+	
+	<h2>Hello, {{name}}</h2>
+	}
+	
+</form>
