@@ -68,6 +68,7 @@ class FizzBuzzHandler(Handler):
 
 app = webapp2.WSGIApplication([
 
-	('/', MainPage)
+	# ('/', MainPage)
+	('/', FizzBuzzHandler)
 
 ], debug=True)

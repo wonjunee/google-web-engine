@@ -11,20 +11,18 @@
 
 	<ul>
 		{% for x in range(1,n+1) %}
-			{% if n % 3 == 0 %}
+			{% if x % 3 == 0 %}
 				<li>Fizz</li>
-			{% elseif n % 5 == 0 %}
+			{% elif x % 5 == 0 %}
 				<li>Buzz</li>
-			{% elseif n % 3 ==0 and n % 5 == 0 %}
+			{% elif x % 15 == 0 %}
 				<li>FizzBuzz</li>
 			{% else %}
-				<li>{{n}}</li>
+				<li>{{x}}</li>
 			{% endif %}
 		{% endfor %}
 	</ul>
 
-	
-	<h2>Hello, {{name}}</h2>
-	}
-	
+
+	<h2>Hello, {{name}}</h2>	
 </form>
