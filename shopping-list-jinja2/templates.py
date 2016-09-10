@@ -36,29 +36,13 @@ class Handler(webapp2.RequestHandler):
 
 class MainPage(Handler):
 	def get(self):
-		n = self.request.get("n")
-		if n:
-			n = int(n)
+		# get_all: get all of food parameters and get them in the list
+		items = self.request.get_all("food")
+
 		# render the empty form.
-		self.render("shopping_list.html", n=n)
+		self.render("shopping_list.html")
 
-		# output = form_html
-		# output_hidden = ""
-
-		# # get_all: get all of food parameters and get them in the list
-		# items = self.request.get_all("food")
-		# if items:
-		# 	output_items = ""
-		# 	for item in items:
-		# 		output_hidden += hidden_html % item
-		# 		output_items += item_html % item
-
-		# 	output_shopping = shopping_list_html % output_items
-		# 	output += output_shopping
-
-		# output = output % output_hidden
-
-		# self.write(output)
+		
 
 class FizzBuzzHandler(Handler):
 	def get(self):
