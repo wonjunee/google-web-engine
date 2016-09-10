@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<form>
+	<h2>Enter some text to ROT13:</h2>
+	{% if content %}
+		<input type="text" name="content" value="{{content}}">
+	{% else %}
+		<input type="text" name="content">
+	{% endif %}
+	<button>Submit</button>
+
+</form>
+
+{% endblock %}
