@@ -5,15 +5,15 @@ import webapp2
 
 USER_RE = re.compile(r"^[a-zA-Z0-9_-]{3,20}$")
 def valid_username(username):
-	return USER_RE.match(username)
+	return username and USER_RE.match(username)
 
 PASSWORD_RE = re.compile(r"^.{3,20}$")
 def valid_password(password):
-	return PASSWORD_RE.match(password)
+	return password and PASSWORD_RE.match(password)
 
 EMAIL_RE = re.compile(r"^[\S]+@[\S]+.[\S]+$")
 def valid_email(email):
-	return EMAIL_RE.match(email)
+	return email and EMAIL_RE.match(email)
 
 template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 
@@ -78,6 +78,7 @@ class SignUp(Handler):
 		if have_error:
 			self.render('signup.html', **params)
 		else:
+			# ?username= is added so that THanksHandler can get username from it.
 			self.redirect('/welcome?username='+user_username)
 
 # Implementing redirection
