@@ -52,11 +52,44 @@ class ROT13(Handler):
 
 class SignUp(Handler):
 	def get(self):
-		username = self.request.get("username")
+		self.render("signup.html")
 
+	def post(self):
+		have_error = False
+		user_username = self.request.get("username")
+		user_password = self.request.get("password")
+		user_email = self.request.get("email")
+
+		username = valid_username(user_username)
+		password = valid_password(user_password)
+		email = valid_email(user_email)
+
+		params = dict(username=user_username, password=user_password, email=user_email)
+		if not username:
+			params["error_username"]="Not a valid username"
+			have_error=True
+		if not password:
+			params["error_password"]="Don't forget the password!"
+			have_error=True
+		if not email:
+			params["error_email"]="Not a valid email"
+			have_error=True
+
+		if have_error:
+			self.render('signup.html', **params)
+		else:
+			self.redirect('/welcome?username='+user_username)
+
+# Implementing redirection
+class ThanksHandler(Handler):
+	def get(self):
+		username = self.request.get("username")
+		self.render("welcome.html", username=username)
 
 app = webapp2.WSGIApplication([
 
-	('/rot13', ROT13)
+	('/rot13', ROT13),
+	('/signup', SignUp),
+	('/welcome', ThanksHandler)
 
 ], debug=True)
