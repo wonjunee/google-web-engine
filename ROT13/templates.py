@@ -1,5 +1,5 @@
 import os
-
+import re
 import jinja2
 import webapp2
 
@@ -17,7 +17,6 @@ def render_str(template, **params):
 	t = jinja_env.get_template(template)
 	return t.render(params)
 
-
 class Handler(webapp2.RequestHandler):
 	def write(self, *a, **kw):
 		self.response.out.write(*a, **kw)
@@ -25,7 +24,7 @@ class Handler(webapp2.RequestHandler):
 	def render(self, template, **kw):
 		self.write(render_str(template, **kw))
 
-class MainPage(Handler):
+class ROT13(Handler):
 	def get(self):
 		# render the empty form.
 		self.render("ROT13.html")
@@ -39,8 +38,13 @@ class MainPage(Handler):
 		# render with content.
 		self.render("ROT13.html", text = content)
 
+class SignUp(Handler):
+	def get(self):
+		username = self.request.get("username")
+
+
 app = webapp2.WSGIApplication([
 
-	('/', MainPage)
+	('/rot13', ROT13)
 
 ], debug=True)
