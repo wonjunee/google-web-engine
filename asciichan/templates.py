@@ -22,7 +22,7 @@ class Handler(webapp2.RequestHandler):
 
 class MainPage(Handler):
 	def get(self):
-		self.wrtie("asciichan!")
+		self.render("front.html")
 
 app = webapp2.WSGIApplication([
 
