@@ -31,6 +31,7 @@ def blog_key(name = 'default'):
 	# the value of the blog's parent
 	return db.Key.from_path('blogs', name)
 
+# Database
 class Post(db.Model):
 	subject = db.StringProperty(required = True)
 	content = db.TextProperty(required = True)
@@ -44,6 +45,7 @@ class Post(db.Model):
 		self._render_text = self.content.replace('\n', '<br>')
 		return render_str("post.html", p = self)
 
+# /blog/?
 class BlogFront(BlogHandler):
 	def get(self):
 		# get all posts and order by created time
@@ -52,6 +54,7 @@ class BlogFront(BlogHandler):
 		#posts = db.GqlQuery("select * from Post order by created desc limit 10")
 		self.render('front.html', posts = posts)
 
+# /blog/##: a page for the specific post
 class PostPage(BlogHandler):
 	def get(self, post_id):
 		key = db.Key.from_path('Post', int(post_id), parent=blog_key())
@@ -83,7 +86,7 @@ app = webapp2.WSGIApplication([
 
 	('/', MainPage),
 	('/blog/?', BlogFront),
-	('/blog/([0-9]+', PostPage),
+	('/blog/([0-9]+)', PostPage),
 	('/blog/newpost', NewPost)
 
 ], debug=True)

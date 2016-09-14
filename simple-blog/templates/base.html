@@ -2,15 +2,19 @@
 
 <html>
 	<head>
+		<link type="text/css" rel="stylesheet" href="/static/main.css" />
 		<title>Udacity Templates!</title>
 	</head>
 
-	<body style="margin: 0">
-		<h1 style="background-color: #ddd; color: #888; margin: 0 height: 50px">
-			Udacity Templates!
-		</h1>
+	<body>
+		<a href="/blog" class="main-title">
+			Simple Blog
+		</a>
+
+		<div id="content">
 		{% block content %}
 		{% endblock %}
+		</div>
 	</body>
 
 </html>
