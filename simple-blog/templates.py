@@ -24,10 +24,11 @@ class MainPage(BlogHandler):
 	def get(self):
 		self.write("Hello, Udacity!")
 
-
 ###### blog stuff
 
 def blog_key(name = 'default'):
+	# for data store
+	# the value of the blog's parent
 	return db.Key.from_path('blogs', name)
 
 class Post(db.Model):
@@ -42,12 +43,10 @@ class Post(db.Model):
 
 class BlogFront(BlogHandler):
 	def get(self):
+		# get all posts and order by created time
 		posts = Post.all().order('-created')
-		self.render('front.html', posts = posts)
-
-class PostPage(BlogHandler):
-	def get(self, post_id):
-		key = db.GqlQuery("select * from Post order by created desc limit 10")
+		# the above is same as below
+		#posts = db.GqlQuery("select * from Post order by created desc limit 10")
 		self.render('front.html', posts = posts)
 
 class PostPage(BlogHandler):
@@ -60,42 +59,28 @@ class PostPage(BlogHandler):
 			return
 
 		self.render("permalink.html", post = post)
-		
-class Art(db.Model):
-	# defining type. required makes sure the data is not empty
-	title = db.StringProperty(required = True)
-	art = db.TextProperty(required = True)
 
-	# auto_now_add: current time
-	created = db.DateTimeProperty(auto_now_add = True)
-
-class MainPage(BlogHandler):
-	def render_front(self, title="", art="", error=""):
-		# Gql always starts from select *
-		arts = db.GqlQuery("select * from Art order by created DESC")
-		self.render("front.html", title=title, art=art, error=error, arts=arts)
-
+class NewPost(BlogHandler):
 	def get(self):
-		self.render_front()
+		self.render("newpost.html")
 
 	def post(self):
-		title = self.request.get("title")
-		art = self.request.get("art")
+		subject = self.request.get('subject')
+		content = self.request.get('content')
 
-		if title and art:
-			# don't need to put datetime because
-			# it will be created automatically
-			a = Art(title=title, art=art)
-			a.put()
-
-			# to avoid reload error message
-			self.redirect("/")
+		if subject and content:
+			p = Post(parent = blog_key(), subject = subject, content = content)
+			p.put()
+			self.redirect('/blog/%s' % str(p.key().id()))
 		else:
-			error = "we need both a title and some artwork!"
-			self.render_front(title, art, error)
+			error = "subject and content, please!"
+			self.render("newpost.html", subject=subject, content=content, error=error)
 
 app = webapp2.WSGIApplication([
 
-	('/', MainPage)
+	('/', MainPage),
+	('/blog/?', BlogFront),
+	('/blog/([0-9]+', PostPage),
+	('/blog/newpost', NewPost)
 
 ], debug=True)
