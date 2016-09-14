@@ -38,6 +38,9 @@ class Post(db.Model):
 	last_modified = db.DateTimeProperty(auto_now = True)
 
 	def render(self):
+		# underscore just means that it is for internal use only
+		# and if possible don't touch
+		# This is same as self.render_text.
 		self._render_text = self.content.replace('\n', '<br>')
 		return render_str("post.html", p = self)
 
