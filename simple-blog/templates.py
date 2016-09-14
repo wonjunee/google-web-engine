@@ -9,16 +9,16 @@ template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
 								autoescape=True)
 
+def render_str(template, **params):
+	t = jinja_env.get_template(template)
+	return t.render(params)
+
 class BlogHandler(webapp2.RequestHandler):
 	def write(self, *a, **kw):
 		self.response.out.write(*a, **kw)
 
-	def render_str(self, template, **params):
-		t = jinja_env.get_template(template)
-		return t.render(params)
-
 	def render(self, template, **kw):
-		self.write(self.render_str(template, **kw))
+		self.write(render_str(template, **kw))
 
 class MainPage(BlogHandler):
 	def get(self):
@@ -49,9 +49,9 @@ class Post(db.Model):
 class BlogFront(BlogHandler):
 	def get(self):
 		# get all posts and order by created time
-		posts = Post.all().order('-created')
+		# posts = Post.all().order('-created')
 		# the above is same as below
-		#posts = db.GqlQuery("select * from Post order by created desc limit 10")
+		posts = db.GqlQuery("select * from Post order by created desc limit 10")
 		self.render('front.html', posts = posts)
 
 # /blog/##: a page for the specific post
