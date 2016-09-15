@@ -58,6 +58,11 @@ class BlogHandler(webapp2.RequestHandler):
     def logout(self):
         self.response.headers.add_header('Set-Cookie', 'user_id=; Path=/')
 
+    # Every request calls this initialize
+    # This function set the user parameter.
+    # This allows the blog to know if some user is logged in
+    # or none is logged in. If none then it shows "signup" link
+    # On the base page.
     def initialize(self, *a, **kw):
         webapp2.RequestHandler.initialize(self, *a, **kw)
         uid = self.read_secure_cookie('user_id')
@@ -112,7 +117,7 @@ class User(db.Model):
     @classmethod
     def register(cls, name, pw, email=None):
         pw_hash = make_pw_hash(name, pw)
-        return User(parent = users_key(),
+        return cls(parent = users_key(),
                     name = name,
                     pw_hash = pw_hash,
                     email = email)
