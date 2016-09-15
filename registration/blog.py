@@ -14,7 +14,7 @@ template_dir = os.path.join(os.path.dirname(__file__), 'templates')
 jinja_env = jinja2.Environment(loader = jinja2.FileSystemLoader(template_dir),
                                autoescape = True)
 
-secret = "asd09090wevawcvasdvasdvwe9129012hr8h"
+secret = "1234"
 
 def render_str(template, **params):
     t = jinja_env.get_template(template)
@@ -260,6 +260,22 @@ class MainPage(BlogHandler):
     def get(self):
         self.response.out.write("Hello Udacity!")
 
+class Login(BlogHandler):
+    def get(self):
+        self.render('login-form.html')
+
+    def post(self):
+        username = self.request.get('username')
+        password = self.request.get('password')
+
+        u = User.login(username, password)
+        if u:
+            self.login(u)
+            self.redirect('/unit3/welcome')
+        else:
+            msg = 'Invalid login'
+            self.render('login-form.html', error = msg)
+            
 app = webapp2.WSGIApplication([
 
    ('/', MainPage),
