@@ -20,9 +20,11 @@ def render_str(template, **params):
     t = jinja_env.get_template(template)
     return t.render(params)
 
+# Make User info more secure
 def make_secure_val(val):
     return '%s|%s' % (val, hmac.new(secret, val).hexdigest())
 
+# Check if the password is correct
 def check_secure_val(secure_val):
     val = secure_val.split('|')[0]
     if secure_val == make_secure_val(val):
@@ -39,6 +41,7 @@ class BlogHandler(webapp2.RequestHandler):
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))    
 
+    # store cookie with secured user info
     def set_secure_cookie(self, name, val):
         cookie_val = make_secure_val(val)
         self.response.headers.add_header(
@@ -69,12 +72,14 @@ def render_post(response, post):
 def make_salt(length = 5):
     return ''.join(random.choice(letters) for x in xrange(length))
 
+# Creating Hash for password
 def make_pw_hash(name, pw, salt = None):
     if not salt:
         salt = make_salt()
     h = hashlib.sha256(name + pw + salt).hexdigest()
     return '%s,%s' % (salt, h)
 
+# Check the hash pw is same as the original one.
 def valid_pw(name, password, h):
     salt = h.split(',')[0]
     return h == make_pw_hash(name, password, salt)
@@ -100,6 +105,10 @@ class User(db.Model):
         u = User.all().filter('name =', name).get()
         return u
 
+    # Create a new user in User class
+    # It's important to use @classmethod because
+    # it allows to refer to User class itself
+    # instead of a particular instance of User class.
     @classmethod
     def register(cls, name, pw, email=None):
         pw_hash = make_pw_hash(name, pw)
@@ -227,10 +236,17 @@ class Register(Signup):
             msg = 'That user already exists.'
             self.render('signup-form.html', error_username = msg)
         else:
+            # Create a new User instance
             u = User.register(self.username, self.password, self.email)
+
+            # Insert into the database
             u.put()
 
+            # login is from BlogHandler class
+            # It creates a secure cookie for a user
             self.login(u)
+
+            # Redirect to the blog
             self.redirect('/blog')
 
 class Unit3Welcome(BlogHandler):
