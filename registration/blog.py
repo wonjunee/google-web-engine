@@ -275,7 +275,12 @@ class Login(BlogHandler):
         else:
             msg = 'Invalid login'
             self.render('login-form.html', error = msg)
-            
+
+class Logout(BlogHandler):
+    def get(self):
+        self.logout()
+        self.redirect('/signup')
+
 app = webapp2.WSGIApplication([
 
    ('/', MainPage),
@@ -284,6 +289,8 @@ app = webapp2.WSGIApplication([
    ('/blog/newpost', NewPost), 
    ('/signup', Register),
    ('/unit3/welcome', Unit3Welcome),
+   ('/login', Login),
+   ('/logout', Logout)
 
    ],
 debug=True)
