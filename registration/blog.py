@@ -132,7 +132,7 @@ class Post(db.Model):
 
 class BlogFront(BlogHandler):
     def get(self):
-        posts = greetings = Post.all().order('-created')
+        posts = Post.all().order('-created')
         self.render('front.html', posts = posts)
 
 class PostPage(BlogHandler):
@@ -182,7 +182,8 @@ def valid_email(email):
 
 class Signup(BlogHandler):
     def get(self):
-        self.render("signup-form.html")
+        users = User.all()
+        self.render("signup-form.html", users=users)
 
     def post(self):
         have_error = False
@@ -193,6 +194,8 @@ class Signup(BlogHandler):
 
         params = dict(username = self.username,
                       email = self.email)
+
+        users = User.all()
 
         if not valid_username(self.username):
             params['error_username'] = "That's not a valid username."

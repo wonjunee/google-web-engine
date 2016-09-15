@@ -65,6 +65,10 @@
 
       <input type="submit">
     </form>
+    {% for i in users %}
+      username: {{i.name}} <br>
+      password: {{i.pw_hash}} <br><br>
+    {% endfor %}
   </body>
 
 </html>
